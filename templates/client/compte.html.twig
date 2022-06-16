@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+
+<div class="container col-md-8">
+    <h1 class="text-center mt-4">Mon compte</h1>
+    <p>Nom : {{ user_info.name }}</p>
+    <p>Prénom : {{ user_info.firstname }}</p>
+    <p>Email : {{ user_info.email }}</p>
+    <p>Adresse : {{ user_info.adress1 }} {{ user_info.adress2 }}</p>
+    <p>Ville : {{ user_info.city }}</p>
+    <p>Code postal : {{ user_info.cp }}</p>
+</div>
+
+{% endblock %}

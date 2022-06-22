@@ -15,74 +15,42 @@ class Lignes
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'lignes')]
-    private $id_article;
-
     #[ORM\ManyToOne(targetEntity: Facture::class, inversedBy: 'lignes')]
-    private $id_facture;
+    #[ORM\JoinColumn(nullable: false)]
+    private $facture;
+
+    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'lignes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $article;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $quantity;
 
-    public function __construct()
-    {
-        $this->id_article = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    /**
-     * @return Collection<int, Article>
-     */
-//    public function getIdArticle(): Collection
-//    {
-//        return $this->id_article;
-//    }
-
-    public function addIdArticle(Article $idArticle): self
+    public function getFacture(): ?Facture
     {
-        if (!$this->id_article->contains($idArticle)) {
-            $this->id_article[] = $idArticle;
-            $idArticle->setLignes($this);
-        }
+        return $this->facture;
+    }
+
+    public function setFacture(?Facture $facture): self
+    {
+        $this->facture = $facture;
 
         return $this;
     }
 
-    public function removeIdArticle(Article $idArticle): self
+    public function getArticle(): ?Article
     {
-        if ($this->id_article->removeElement($idArticle)) {
-            // set the owning side to null (unless already changed)
-            if ($idArticle->getLignes() === $this) {
-                $idArticle->setLignes(null);
-            }
-        }
-
-        return $this;
+        return $this->article;
     }
 
-    public function getIdFacture(): ?Facture
+    public function setArticle(?Article $article): self
     {
-        return $this->id_facture;
-    }
-
-    public function setIdFacture(?Facture $id_facture): self
-    {
-        $this->id_facture = $id_facture;
-
-        return $this;
-    }
-    public function getIdArticle(): ?Article
-    {
-        return $this->id_article;
-    }
-
-    public function setIdArticle(?Article $id_article): self
-    {
-        $this->id_facture = $id_article;
+        $this->article = $article;
 
         return $this;
     }

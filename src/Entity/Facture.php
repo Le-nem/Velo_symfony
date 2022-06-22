@@ -20,9 +20,9 @@ class Facture
     private $id_user;
 
     #[ORM\Column(type: 'datetime')]
-    private $delivery_date;
+    public $delivery_date;
 
-    #[ORM\OneToMany(mappedBy: 'id_facture', targetEntity: Lignes::class)]
+    #[ORM\OneToMany(mappedBy: 'facture', targetEntity: Lignes::class)]
     private $lignes;
 
     public function __construct()

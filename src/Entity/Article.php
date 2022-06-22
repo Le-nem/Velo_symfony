@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
@@ -27,6 +28,9 @@ class Article
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image;
+
+    #[ORM\OneToMany(mappedBy: 'id_article', targetEntity: Lignes::class)]
+    private $lignes;
 
 
     public function getId(): ?int
@@ -94,14 +98,39 @@ class Article
         return $this;
     }
 
-    public function getLignes(): ?Lignes
-    {
-        return $this->lignes;
-    }
 
     public function setLignes(?Lignes $lignes): self
     {
         $this->lignes = $lignes;
+
+        return $this;
+    }
+    /**
+     * @return Collection<int, Lignes>
+     */
+    public function getLignes(): Collection
+    {
+        return $this->lignes;
+    }
+
+    public function addLigne(Lignes $ligne): self
+    {
+        if (!$this->lignes->contains($ligne)) {
+            $this->lignes[] = $ligne;
+            $ligne->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLigne(Lignes $ligne): self
+    {
+        if ($this->lignes->removeElement($ligne)) {
+            // set the owning side to null (unless already changed)
+            if ($ligne->getArticle() === $this) {
+                $ligne->setArticle(null);
+            }
+        }
 
         return $this;
     }

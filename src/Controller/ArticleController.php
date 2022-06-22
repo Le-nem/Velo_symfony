@@ -85,7 +85,7 @@ class ArticleController extends AbstractController
 
     }
     #[Route('/pay', name: 'app_pay')]
-    public function pay(ManagerRegistry $managerRegistry):Response
+    public function pay(ManagerRegistry $managerRegistry,ArticleRepository $article):Response
     {
         $session = $this->requestStack->getSession();
         $manager = $managerRegistry->getManager();
@@ -96,13 +96,14 @@ class ArticleController extends AbstractController
         $manager->persist($facture);
         $manager->flush();
         foreach ($panier as $id=>$quantite){
-            $article = new Article();
-            $article->setStock($article->getStock() - $quantite);
+            $art = $article->find($id);
+            $art->setStock($art->getStock() - $quantite);
             $ligne = new Lignes();
-            $ligne->setIdFacture($facture);
-            $ligne->setIdArticle($article);
+            $ligne->setFacture($facture);
+            $ligne->setArticle($art);
             $ligne->setQuantity($quantite);
             $manager->persist($ligne);
+            $manager->persist($art);
         }
         $manager->flush();
         $session->remove('panier');

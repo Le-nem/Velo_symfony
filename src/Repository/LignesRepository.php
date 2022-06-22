@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Article;
+use App\Entity\Facture;
 use App\Entity\Lignes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,20 +41,20 @@ class LignesRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Lignes[] Returns an array of Lignes objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('l.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Lignes[] Returns an array of Lignes objects
+     */
+    public function getLignesByFacture(Facture $facture): array
+    {
+        return $this->createQueryBuilder('l')
+            ->join('App\Entity\Article','a')
+            ->andWhere('a.id = l.article')
+            ->andWhere('l.facture = :val')
+            ->setParameter('val', $facture)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Lignes
 //    {

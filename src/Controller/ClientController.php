@@ -3,8 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Facture;
 use App\Entity\User;
 use App\Repository\ArticleRepository;
+use App\Repository\FactureRepository;
+use App\Repository\LignesRepository;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -20,7 +25,7 @@ class ClientController extends AbstractController
     }
 
     #[Route('/client/compte', name: 'app_compte_client')]
-    public function index(ManagerRegistry $managerRegistry): Response
+    public function index(ManagerRegistry $managerRegistry,FactureRepository $factureRepository,UserRepository $userRepository): Response
     {
         $email = $this->getUser()->getUserIdentifier();
         $repository = $managerRegistry->getRepository(User::class);
@@ -30,6 +35,22 @@ class ClientController extends AbstractController
         return $this->render('client/compte.html.twig', [
             'controller_name' => 'ClientController',
             'user_info' => $user[0],
+        ]);
+    }
+    #[Route('/client/facture/{id}', name: 'app_facture_client')]
+    public function facture(FactureRepository $factureRepository,LignesRepository $ligne): Response
+    {
+        $id=$this->getUser();
+        $facture = $factureRepository->getFactureByUserId($id);
+        $result=[];
+        foreach ($facture as $fact){
+           $result[] = $ligne->getLignesByFacture($fact);
+
+        }
+        unset($result[0]);
+        return $this->render('client/facture.html.twig', [
+            'controller_name' => 'ClientController',
+            'facture' => $result,
         ]);
     }
 

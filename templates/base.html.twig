@@ -28,7 +28,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_article') }}">Nos produits</a>
                     </li>
-                    {% if app.user.roles.0 is same as 'ROLE_ADMIN' %}
+                    {% if app.user.roles.0 is defined and app.user.roles.0 is same as 'ROLE_ADMIN' %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Menu Admin
@@ -36,7 +36,7 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                                 <li><a class="dropdown-item" href="{{ path('app_admin_produit') }}">Gestion des produits</a></li>
-                                <li><a class="dropdown-item" href="{{ path('app_logout') }}">Gestion des utilisateurs</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_admin_user') }}">Gestion des utilisateurs</a></li>
                         </ul>
                     </li>
                     {% endif %}
@@ -47,7 +47,9 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% if app.user %}
                                 <li><a class="dropdown-item" href="{{ path('app_compte_client') }}">Mon compte</a></li>
-                                <li><a class="dropdown-item" href="{{ path('app_logout') }}">Mon panier</a></li>
+                                {% if app.session.get('panier') %}
+                                <li><a class="dropdown-item" href="{{ path('app_panier') }}">Mon panier</a></li>
+                                    {% endif %}
                                 <li><a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a></li>
                                 {% else %}
                                     <li><a class="dropdown-item" href="{{ path('app_login') }}">Login</a></li>

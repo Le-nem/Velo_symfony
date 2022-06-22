@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,5 +21,21 @@ class AdminController extends AbstractController
             'controller_name' => 'AdminController',
             'article' => $article,
         ]);
+    }
+    #[Route('/admin_user', name: 'app_admin_user')]
+    public function index1(ManagerRegistry $managerRegistry): Response
+    {
+        $repository = $managerRegistry->getRepository(User::class);
+        $user = $repository->findAll();
+
+        return $this->render('admin/user.html.twig', [
+            'controller_name' => 'AdminController',
+            'users' => $user,
+        ]);
+    }
+    #[Route('/edit_article/{id}', name: 'app_edit_article')]
+    public function editArticle(ManagerRegistry $managerRegistry, $id): Response
+    {
+
     }
 }

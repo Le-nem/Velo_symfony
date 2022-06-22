@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+
+        <h1 class="text-center">Mon panier</h1>
+
+
+        <table class="table">
+            <thead>
+            <tr>
+            <th>Produit</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+            <th>Total</th>
+            <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for article in dataCart %}
+            <tr>
+            <td>{{ article.produit.description }}</td>
+            <td>{{ article.produit.prix }}</td>
+            <td>{{ article.quantite }}</td>
+            <td>{{ article.produit.prix * article.quantite }}</td>
+            <td>
+                <a href="{{ path('app_order', { 'id': article.produit.id }) }}"><button class="btn btn-success">+</button></a>
+                <a href="{{ path('app_remove', { 'id': article.produit.id }) }}"><button class="btn btn-warning">-</button></a>
+                <a href="{{ path('app_delete', { 'id': article.produit.id }) }}"><button class="btn btn-danger">X</button></a>
+            </td>
+            </tr>
+            {% else %}
+                <p>Votre panier est vide</p>
+
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>Total</td>
+                <td>{{ total }}</td>
+                <td><a href="{{ path('app_pay') }}" class="btn btn-primary">Commander</a></td>
+            </tr>
+            </tfoot>
+
+        </table>
+
+
+
+
+
+
+
+
+
+    </div>
+
+{% endblock %}

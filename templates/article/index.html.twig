@@ -1,20 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ArticleController!{% endblock %}
+{% block title %}Nos produits{% endblock %}
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Ludo/OneDrive/Bureau/tuto_symphony/velo/src/Controller/ArticleController.php'|file_link(0) }}">src/Controller/ArticleController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Ludo/OneDrive/Bureau/tuto_symphony/velo/templates/article/index.html.twig'|file_link(0) }}">templates/article/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container">
+
+        <h1 class="text-center m-4">Nos produits</h1>
+        {% if app.session.flashBag.get('success') %}
+            <div class="alert alert-success">Article ajouté au panier</div>
+        {%  endif %}
+        <div class="row">
+
+    {% for article in articles %}
+
+    <div class="card col-md-3 m-4">
+        {% if article.image is not null %}
+        <img src="{{ article.image }}" class="card-img-top" alt="image">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{ article.code }}</h5>
+            <p class="card-text">{{ article.description }}</p>
+            <a href="{{ path('app_order', { 'id': article.id }) }}" class="btn btn-primary">Commander</a>
+        </div>
+    </div>
+
+    {%  endfor %}
+
+    </div>
+    </div>
+
 {% endblock %}

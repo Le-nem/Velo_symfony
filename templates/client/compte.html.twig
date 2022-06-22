@@ -4,6 +4,10 @@
 
 {% block body %}
 
+    {% if app.session.flashBag.get('success') %}
+        <div class="alert alert-success">Article commandé</div>
+    {%  endif %}
+
 <div class="container col-md-8">
     <h1 class="text-center mt-4">Mon compte</h1>
     <p>Nom : {{ user_info.name }}</p>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Gestion des produits{% endblock %}
 
 {% block body %}
 <div class="container">
@@ -13,6 +13,7 @@
         <th>prix</th>
         <th>stock</th>
         <th>image</th>
+            <th>editer</th>
         </tr>
         {% for articles in article %}
         <tr>
@@ -22,6 +23,7 @@
             <td>{{ articles.prix }}</td>
             <td>{{ articles.stock }}</td>
             <td>{{ articles.image }}</td>
+            <td> <a href="{{ path('app_edit_article' , { id : articles.id }) }}">Editer</a></td>
         </tr>
         {% endfor %}
     </table>

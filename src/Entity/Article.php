@@ -28,6 +28,7 @@ class Article
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image;
 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +90,18 @@ class Article
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getLignes(): ?Lignes
+    {
+        return $this->lignes;
+    }
+
+    public function setLignes(?Lignes $lignes): self
+    {
+        $this->lignes = $lignes;
 
         return $this;
     }

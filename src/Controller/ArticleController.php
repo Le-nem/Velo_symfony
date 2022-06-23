@@ -90,11 +90,23 @@ class ArticleController extends AbstractController
         $session = $this->requestStack->getSession();
         $manager = $managerRegistry->getManager();
         $panier = $session->get('panier');
+        $total = $session->get('total');
+        $commande[] = date("F j, Y, g:i a");
+        foreach ($panier as $id=>$quantite) {
+            $arti = $article->find($id);
+            $com[] = array(
+               'description' => $arti->getDescription(),
+               'prix' => $arti->getPrix(),
+               'quantite'  => $quantite,
+                );
+        }
+        $commande[] = $com;
+        $commande[] = $total;
+        json_encode($commande);
         $facture = new Facture();
         $facture->setIdUser($this->getUser());
         $facture->setDeliveryDate(new \DateTime());
-        $manager->persist($facture);
-        $manager->flush();
+        $facture->setCommannde($commande);
         foreach ($panier as $id=>$quantite){
             $art = $article->find($id);
             $art->setStock($art->getStock() - $quantite);
@@ -102,6 +114,7 @@ class ArticleController extends AbstractController
             $ligne->setFacture($facture);
             $ligne->setArticle($art);
             $ligne->setQuantity($quantite);
+            $manager->persist($facture);
             $manager->persist($ligne);
             $manager->persist($art);
         }

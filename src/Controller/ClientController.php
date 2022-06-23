@@ -37,17 +37,16 @@ class ClientController extends AbstractController
             'user_info' => $user[0],
         ]);
     }
-    #[Route('/client/facture/{id}', name: 'app_facture_client')]
+    #[Route('/client/facture', name: 'app_facture_client')]
     public function facture(FactureRepository $factureRepository,LignesRepository $ligne): Response
     {
         $id=$this->getUser();
-        $facture = $factureRepository->getFactureByUserId($id);
-        $result=[];
-        foreach ($facture as $fact){
-           $result[] = $ligne->getLignesByFacture($fact);
+          $facture = $factureRepository->getFactureByUserId($id);
+        foreach ($facture as $item){
+            $result[]= $item->getCommannde();
 
         }
-        unset($result[0]);
+
         return $this->render('client/facture.html.twig', [
             'controller_name' => 'ClientController',
             'facture' => $result,
@@ -69,7 +68,7 @@ class ClientController extends AbstractController
             ];
             $total += $article->getPrix() * $quantite;
         }
-
+        $session->set('total',$total);
 
         return $this->render('/client/panier.html.twig' , compact('dataCart','total'));
     }

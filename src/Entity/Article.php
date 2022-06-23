@@ -29,7 +29,7 @@ class Article
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image;
 
-    #[ORM\OneToMany(mappedBy: 'id_article', targetEntity: Lignes::class)]
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Lignes::class)]
     private $lignes;
 
 

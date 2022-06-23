@@ -25,6 +25,9 @@ class Facture
     #[ORM\OneToMany(mappedBy: 'facture', targetEntity: Lignes::class)]
     private $lignes;
 
+    #[ORM\Column(type: 'json')]
+    private $commannde = [];
+
     public function __construct()
     {
         $this->lignes = new ArrayCollection();
@@ -85,6 +88,18 @@ class Facture
                 $ligne->setIdFacture(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCommannde(): ?array
+    {
+        return $this->commannde;
+    }
+
+    public function setCommannde(array $commannde): self
+    {
+        $this->commannde = $commannde;
 
         return $this;
     }

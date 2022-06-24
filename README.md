@@ -1,6 +1,6 @@
 # Velo_symfony
 Projet vélo en symfony 6
-Pour regarde le projet : 
+Pour regarder le projet : 
 
 composer install
 

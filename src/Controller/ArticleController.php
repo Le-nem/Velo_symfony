@@ -5,10 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Facture;
 use App\Entity\Lignes;
-use App\Entity\User;
 use App\Repository\ArticleRepository;
-use App\Repository\UserRepository;
-use DateTimeInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +32,7 @@ class ArticleController extends AbstractController
             'articles' => $repository->findAll(),
         ]);
     }
+
     #[Route('/order/{id<\d+>}', name: 'app_order')]
         public function order(Article $article):Response
     {

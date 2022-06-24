@@ -17,13 +17,17 @@
     {% for article in articles %}
 
     <div class="card col-md-3 m-4">
+
         {% if article.image is not null %}
-        <img src="{{ article.image }}" class="card-img-top" alt="image">
+        <img src="{{ asset('uploads/') }}{{ article.image }}" class="card-img-top" alt="image">
         {% endif %}
         <div class="card-body">
             <h5 class="card-title">{{ article.code }}</h5>
-            <p class="card-text">{{ article.description }}</p>
+            <p class="card-text">{{ article.description }}
+            {{ article.prix }}€</p>
+
             <a href="{{ path('app_order', { 'id': article.id }) }}" class="btn btn-primary">Commander</a>
+
         </div>
     </div>
 
